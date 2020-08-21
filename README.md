@@ -1,6 +1,5 @@
-<center><a href="https://www.icy-fire.com/">
-    <img src="multimedia/logo.jpg" alt="IcyFire logo" width="80" height="80">
-</a></center>
+<center><a href="https://www.icy-fire.com/"><img src="multimedia/logo.jpg" alt="IcyFire logo" width="80" height="80"></a></center>
+
 
 <center><h3>IcyFire server</h3></center>
 
