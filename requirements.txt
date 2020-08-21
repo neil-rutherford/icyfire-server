@@ -1,0 +1,10 @@
+requests
+facebook-sdk
+python-twitter
+tweepy
+pytumblr
+praw
+python-dotenv
+pandas
+dropbox
+cryptography
