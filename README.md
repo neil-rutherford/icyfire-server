@@ -1,7 +1,7 @@
-<center><a href="https://www.icy-fire.com/"><img src="multimedia/logo.jpg" alt="IcyFire logo" width="80" height="80"></a></center>
-
-
-<center><h3>IcyFire server</h3></center>
+<p align="center">
+    <a href="https://www.icy-fire.com/"><img src="multimedia/logo.jpg" alt="IcyFire logo" width="80" height="80"></a>
+    <h3>IcyFire server</h3>
+</p>
 
 <p align="center">
     Digital marketing runs on time with IcyFire.
