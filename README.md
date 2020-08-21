@@ -1,6 +1,8 @@
 <p align="center">
     <a href="https://www.icy-fire.com/"><img src="multimedia/logo.jpg" alt="IcyFire logo" width="80" height="80"></a>
-    <h3>IcyFire server</h3>
+    <p align="center">
+        <h3>IcyFire server</h3>
+    </p>
 </p>
 
 <p align="center">
