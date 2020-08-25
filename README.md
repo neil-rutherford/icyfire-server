@@ -61,6 +61,12 @@ git clone https://github.com/neil-rutherford/icyfire-server.git
 python3 -m venv venv
 source venv/bin/activate
 
+# Upgrade pip so things don't break
+python3 -m pip install --upgrade pip
+
+# Install Linux dependency for Cryptography package
+sudo apt install libffi-dev
+
 # Install all dependencies
 python3 -m pip install -r requirements.txt
 
