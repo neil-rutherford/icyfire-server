@@ -56,6 +56,7 @@ In the terminal, execute the following commands:
 ```sh
 # Clone the Github repository
 git clone https://github.com/neil-rutherford/icyfire-server.git
+cd icyfire-server
 
 # Set up and activate the virtual environment
 python3 -m venv venv
