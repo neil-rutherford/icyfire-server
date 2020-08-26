@@ -60,12 +60,11 @@ git clone https://github.com/neil-rutherford/icyfire-server.git
 # Set up and activate the virtual environment
 python3 -m venv venv
 source venv/bin/activate
-
-# Upgrade pip so things don't break
 python3 -m pip install --upgrade pip
 
-# Install Linux dependency for Cryptography package
+# Install Linux dependencies for compatibility
 sudo apt install libffi-dev
+sudo apt-get install python-dev libatlas-base-dev
 
 # Install all dependencies
 python3 -m pip install -r requirements.txt
@@ -87,7 +86,7 @@ chmod +x main.py
 
 ## Usage
 
-The file is designed to be run indefinitely on a Linux-based server. On startup, you should see the IcyFire logo, as well as something that looks like this:
+The file is designed to be run indefinitely on a Debian-based server. On startup, you should see the IcyFire logo, as well as something that looks like this:
 
 ```sh
 Initializing Server 1...

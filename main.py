@@ -568,7 +568,7 @@ def main():
     end = calculate_max(server_id)
     print("Upper bound: {}".format(end))
     df = create_dataframe(start, end)
-    print("Generated reference table: {}".format(df.shape()))
+    print("Generated reference table: {}".format(str(df.shape())))
     x = current_slot(df)
     print("UTC time now: {}".format(datetime.utcnow().strftime("%A, %B %-d, %Y %H:%M:%f")))
     print("Starting at timeslot {}".format(x))
