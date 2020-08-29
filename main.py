@@ -152,7 +152,7 @@ def download_multimedia(multimedia_url):
 
     Example usage: download_multimedia('example.jpg') would connect to "Dropbox/multimedia/example.jpg", then download the file locally to "./multimedia/example.jpg".
     '''
-    file_name = str(multimedia_url).split('/')[-1:]
+    file_name = str(multimedia_url).split('/')[-1]
     if not os.path.exists('./multimedia/{}'.format(file_name)):
         try:
             dbx = dropbox.Dropbox(os.environ['DROPBOX_ACCESS_KEY'])
@@ -173,7 +173,7 @@ def delete_multimedia(multimedia_url):
 
     Example usage: delete_multimedia('example.jpg') would delete "Dropbox/multimedia/example.jpg" as well as the local file stored at "./multimedia/example.jpg".
     '''
-    file_name = str(multimedia_url).split('/')[-1:]
+    file_name = str(multimedia_url).split('/')[-1]
     if os.path.exists('./multimedia/{}'.format(file_name)):
         os.remove('./multimedia/{}'.format(file_name))
     try:
