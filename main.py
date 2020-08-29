@@ -195,6 +195,10 @@ def facebook_short_text(access_token, page_id, body, link_url, tags):
     :return:                A Facebook submission object.
     :onerror:               Prints the status code.
     '''
+    if link_url is None:
+        link_url = ''
+    if tags is None:
+        tags = ''
     fb = requests.post(f'https://graph.facebook.com/{page_id}/feed?message={body + link_url + tags}&access_token={access_token}')
     if fb.status_code == 200:
         print("     Deleting post from queue...")
@@ -215,7 +219,11 @@ def facebook_long_text(access_token, page_id, body, link_url, tags):
     :return:                A Facebook submission object.
     :onerror:               Prints the status code.
     '''
-    fb = requests.post(f'https://graph.facebook.com/{page_id}/feed?message={body + link_url + tags}&access_token={access_token}')
+    if link_url is None:
+        link_url = ''
+    if tags is None:
+        tags = ''
+    fb = requests.post(f'https://graph.facebook.com/{page_id}/feed?message={body + tags + link_url}&access_token={access_token}')
     if fb.status_code == 200:
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
@@ -279,7 +287,11 @@ def twitter_short_text(consumer_key, consumer_secret, access_token_key, access_t
     '''
     try:
         api = twitter.Api(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret)
-        api.PostUpdate(body + '\n' + link_url + '\n' + tags)
+        if link_url is None:
+            link_url = ''
+        if tags is None:
+            tags = ''
+        api.PostUpdate(body + tags + link_url)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -305,6 +317,10 @@ def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_
         auth.set_access_token(access_token_key, access_token_secret)
         api = tweepy.API(auth)
         media = api.media_upload('./multimedia/{}'.format(file_name))
+        if link_url is None:
+            link_url = ''
+        if tags is None:
+            tags = ''
         tweet = caption + '\n' + link_url + '\n' + tags
         post = api.update_status(status=tweet, media_ids=[media.media_id])
         print("     Deleting post from queue...")
@@ -332,7 +348,11 @@ def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_
         auth.set_access_token(access_token_key, access_token_secret)
         api = tweepy.API(auth)
         media = api.media_upload('./multimedia/{}'.format(file_name))
-        tweet = caption + '\n' + link_url + '\n' + tags
+        if link_url is None:
+            link_url = ''
+        if tags is None:
+            tags = ''
+        tweet = caption + tags + link_url
         post = api.update_status(status=tweet, media_ids=[media.media_id])
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
@@ -359,7 +379,9 @@ def tumblr_short_text(consumer_key, consumer_secret, oauth_token, oauth_secret, 
 
     try:
         client = pytumblr.TumblrRestClient(consumer_key, consumer_secret, oauth_token, oauth_secret)
-        client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url, tags=tags)
+        if link_url is None:
+            link_url = ''
+        client.create_text(blog_name, state="published", title=title, body=body + link_url, tags=tags)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -384,7 +406,9 @@ def tumblr_long_text(consumer_key, consumer_secret, oauth_token, oauth_secret, b
     '''
     try:
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
-        client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url, tags=tags)
+        if link_url is None:
+            link_url = ''
+        client.create_text(blog_name, state="published", title=title, body=body + link_url, tags=tags)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -409,7 +433,9 @@ def tumblr_image(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_
     '''
     try:
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
-        client.create_photo(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data=[file_name])
+        if link_url is None:
+            link_url = ''
+        client.create_photo(blog_name, state="published", caption=caption + link_url, tags=tags, data=[file_name])
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -434,7 +460,9 @@ def tumblr_video(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_
     '''
     try:
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
-        client.create_video(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data = file_name)
+        if link_url is None:
+            link_url = ''
+        client.create_video(blog_name, state="published", caption=caption + link_url, tags=tags, data = file_name)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -458,6 +486,8 @@ def reddit_short_text(client_id, client_secret, user_agent, username, password, 
     '''
     try:
         reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password)
+        if link_url is None:
+            link_url = ''
         reddit.subreddit(target_subreddit).submit(title, selftext=body + '\n' + link_url)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
@@ -482,6 +512,8 @@ def reddit_long_text(client_id, client_secret, user_agent, username, password, t
     '''
     try:
         reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password)
+        if link_url is None:
+            link_url = ''
         reddit.subreddit(target_subreddit).submit(title, selftext=body + '\n' + link_url)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')

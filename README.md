@@ -57,32 +57,13 @@ In the terminal, execute the following commands:
 # Clone the Github repository
 git clone https://github.com/neil-rutherford/icyfire-server.git
 cd icyfire-server
+```
 
-# Set up and activate the virtual environment
-python3 -m venv venv
-source venv/bin/activate
-python3 -m pip install --upgrade pip
+Open the ENV.txt file, enter all of the environmental variables, then rename the file `.env`. After that:
 
-# Install Linux dependencies for compatibility
-sudo apt install libffi-dev
-sudo apt-get install python-dev libatlas-base-dev
-
-# Install all dependencies
-python3 -m pip install -r requirements.txt
-
-# Set environmental variables
-export SERVER_ID=<server_id>
-export DROPBOX_ACCESS_KEY=<dropbox_access_key>
-export READ_TOKEN=<read_token>
-export DELETE_TOKEN=<delete_token>
-export CRED_TOKEN=<cred_token>
-export SECURITY_TOKEN=<security_token>
-export SECRET_KEY=<secret_key>
-export SALT=<salt>
-
-# Make the file executable and run it
-chmod +x main.py
-./main.py
+```sh
+chmod +x run.sh
+./run.sh
 ```
 
 ## Usage
@@ -93,7 +74,7 @@ The file is designed to be run indefinitely on a Debian-based server. On startup
 Initializing Server 1...
 Lower bound: 1
 Upper bound: 10800
-Generated reference table: (3,10800)
+Generated reference table: (3,10080)
 UTC time now: Monday, August 10, 2020 00:01
 Starting at timeslot 2
 Running...
