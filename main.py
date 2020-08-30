@@ -233,7 +233,7 @@ def facebook_long_text(access_token, page_id, body, link_url, tags, x, read_toke
         print('     Facebook long text status code: {}'.format(fb.status_code))
 
 
-def facebook_image(access_token, page_id, caption, tags, link_url, file_name, x, read_token, delete_token, server_id):
+def facebook_image(access_token, page_id, caption, tags, link_url, multimedia_url, x, read_token, delete_token, server_id):
     '''
     Publishes an image post to Facebook, then deletes it from the queue.
 
@@ -245,6 +245,8 @@ def facebook_image(access_token, page_id, caption, tags, link_url, file_name, x,
     :return:                A Facebook submission object.
     :onerror:               Prints the status code.
     '''
+    file_name = str(multimedia_url).split('/')[-1]
+    file_name = './multimedia/{}'.format(file_name)
     fb = requests.post(f'https://graph.facebook.com/{page_id}/photos?url={file_name}&access_token={access_token}')
     if fb.status_code == 200:
         print("     Deleting post from queue...")
@@ -253,7 +255,7 @@ def facebook_image(access_token, page_id, caption, tags, link_url, file_name, x,
         print('     Facebook image status code: {}'.format(fb.status_code))
 
 
-def facebook_video(access_token, page_id, caption, tags, link_url, file_name, x, read_token, delete_token, server_id):
+def facebook_video(access_token, page_id, caption, tags, link_url, multimedia_url, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Facebook, then deletes it from the queue. (Note: `publish_video` permission is required for this functionality.)
 
@@ -265,6 +267,8 @@ def facebook_video(access_token, page_id, caption, tags, link_url, file_name, x,
     :return:                A Facebook submission object.
     :onerror:               Prints the status code.
     '''
+    file_name = str(multimedia_url).split('/')[-1]
+    file_name = './multimedia/{}'.format(file_name)
     fb = requests.post(f'https://graph.facebook.com/{page_id}/videos?url={file_name}&access_token={access_token}')
     if fb.status_code == 200:
         print("     Deleting post from queue...")
@@ -300,7 +304,7 @@ def twitter_short_text(consumer_key, consumer_secret, access_token_key, access_t
         print("     Twitter short text error: {}".format(str(e)))
 
 
-def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_secret, file_name, caption, tags, link_url, x, read_token, delete_token, server_id):
+def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_secret, multimedia_url, caption, tags, link_url, x, read_token, delete_token, server_id):
     '''
     Publishes an image post to Twitter, then deletes it from the queue.
 
@@ -314,7 +318,8 @@ def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_
     :return:                        A Twitter submission object
     :onerror:                       Prints error as a string.
     '''
-    try:    
+    try:
+        file_name = str(multimedia_url).split('/')[-1]
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token_key, access_token_secret)
         api = tweepy.API(auth)
@@ -331,7 +336,7 @@ def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_
         print("     Twitter image error: {}".format(str(e)))
 
 
-def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_secret, file_name, caption, link_url, tags, x, read_token, delete_token, server_id):
+def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_secret, multimedia_url, caption, link_url, tags, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Twitter, then deletes it from the queue.
 
@@ -346,6 +351,7 @@ def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_
     :onerror:                       Prints error as a string.
     '''
     try:
+        file_name = str(multimedia_url).split('/')[-1]
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token_key, access_token_secret)
         api = tweepy.API(auth)
@@ -417,7 +423,7 @@ def tumblr_long_text(consumer_key, consumer_secret, oauth_token, oauth_secret, b
         print("     Tumblr long text error: {}".format(str(e)))
 
 
-def tumblr_image(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_name, caption, link_url, tags, file_name, x, read_token, delete_token, server_id):
+def tumblr_image(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_name, caption, link_url, tags, multimedia_url, x, read_token, delete_token, server_id):
     '''
     Publishes an image post to Tumblr, then deletes it from the queue.
 
@@ -434,17 +440,19 @@ def tumblr_image(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_
     :onerror:                   Prints error as a string.
     '''
     try:
+        file_name = str(multimedia_url).split('/')[-1]
+        file_name = './multimedia/{}'.format(file_name)
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
         if link_url is None:
             link_url = ''
-        client.create_photo(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data=[file_name])
+        client.create_photo(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data=file_name)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
         print("     Tumblr image error: {}".format(str(e)))
 
 
-def tumblr_video(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_name, caption, link_url, tags, file_name, x, read_token, delete_token, server_id):
+def tumblr_video(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_name, caption, link_url, tags, multimedia_url, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Tumblr, then deletes it from the queue.
 
@@ -464,7 +472,7 @@ def tumblr_video(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
         if link_url is None:
             link_url = ''
-        client.create_video(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data = file_name)
+        client.create_video(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data=file_name)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -523,7 +531,7 @@ def reddit_long_text(client_id, client_secret, user_agent, username, password, t
         print('     Reddit long text error: {}'.format(str(e)))
 
 
-def reddit_image(client_id, client_secret, user_agent, username, password, target_subreddit, title, file_name, link_url, x, read_token, delete_token, server_id):
+def reddit_image(client_id, client_secret, user_agent, username, password, target_subreddit, title, multimedia_url, link_url, x, read_token, delete_token, server_id):
     '''
     Publishes an image post to Reddit, then deletes it from the queue.
 
@@ -539,6 +547,8 @@ def reddit_image(client_id, client_secret, user_agent, username, password, targe
     :onerror:                   Prints the error as a string.
     '''
     try:
+        file_name = str(multimedia_url).split('/')[-1]
+        file_name = './multimedia/{}'.format(file_name)
         reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password)
         reddit.subreddit(target_subreddit).submit_image(title=title, image_path=file_name)
         print("     Deleting post from queue...")
@@ -547,7 +557,7 @@ def reddit_image(client_id, client_secret, user_agent, username, password, targe
         print('     Reddit image error: {}'.format(str(e)))
 
 
-def reddit_video(client_id, client_secret, user_agent, username, password, target_subreddit, title, file_name, link_url, x, read_token, delete_token, server_id):
+def reddit_video(client_id, client_secret, user_agent, username, password, target_subreddit, title, multimedia_url, link_url, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Reddit, then deletes it from the queue.
 
@@ -563,6 +573,8 @@ def reddit_video(client_id, client_secret, user_agent, username, password, targe
     :onerror:                   Prints the error as a string.
     '''
     try:
+        file_name = str(multimedia_url).split('/')[-1]
+        file_name = './multimedia/{}'.format(file_name)
         reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password)
         reddit.subreddit(target_subreddit).submit_video(title=title, video_path=file_name)
         print("     Deleting post from queue...")
@@ -632,7 +644,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Facebook image...")
-                    facebook_image(access_token=access_token, page_id=page_id, caption=read.json()['caption'], tags=read.json()['tags'], file_name='./multimedia/{}'.format(read.json()['multimedia_url']), x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    facebook_image(access_token=access_token, page_id=page_id, caption=read.json()['caption'], tags=read.json()['tags'], multimedia_url=read.json()['multimedia_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -641,7 +653,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Facebook video...")
-                    facebook_image(access_token=access_token, page_id=page_id, caption=read.json()['caption'], tags=read.json()['tags'], file_name='./multimedia/{}'.format(read.json()['multimedia_url']), x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    facebook_image(access_token=access_token, page_id=page_id, caption=read.json()['caption'], tags=read.json()['tags'], multimedia_url=read.json()['multimedia_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -662,7 +674,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Twitter image...")
-                    twitter_image(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret, file_name='./multimedia/{}'.format(read.json()['multimedia_url']), caption=read.json()['caption'], tags=read.json()['tags'], link_url=read.json()['link_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    twitter_image(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret, multimedia_url=read.json()['multimedia_url'], caption=read.json()['caption'], tags=read.json()['tags'], link_url=read.json()['link_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -671,7 +683,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Twitter video...")
-                    twitter_video(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret, file_name='./multimedia/{}'.format(read.json()['multimedia_url']), caption=read.json()['caption'], tags=read.json()['tags'], link_url=read.json()['link_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    twitter_video(consumer_key=consumer_key, consumer_secret=consumer_secret, access_token_key=access_token_key, access_token_secret=access_token_secret, multimedia_url=read.json()['multimedia_url'], caption=read.json()['caption'], tags=read.json()['tags'], link_url=read.json()['link_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -698,7 +710,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Tumblr image...")
-                    tumblr_image(consumer_key=consumer_key, consumer_secret=consumer_secret, oauth_token=oauth_token, oauth_secret=oauth_secret, blog_name=blog_name, caption=read.json()['caption'], link_url=read.json()['link_url'], tags=read.json()['tags'], file_name='./multimedia/{}'.format(read.json()['multimedia_url']), x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    tumblr_image(consumer_key=consumer_key, consumer_secret=consumer_secret, oauth_token=oauth_token, oauth_secret=oauth_secret, blog_name=blog_name, caption=read.json()['caption'], link_url=read.json()['link_url'], tags=read.json()['tags'], multimedia_url=read.json()['multimedia_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -707,7 +719,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Tumblr video...")
-                    tumblr_video(consumer_key=consumer_key, consumer_secret=consumer_secret, oauth_token=oauth_token, oauth_secret=oauth_secret, blog_name=blog_name, caption=read.json()['caption'], link_url=read.json()['link_url'], tags=read.json()['tags'], file_name='./multimedia/{}'.format(read.json()['multimedia_url']), x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    tumblr_video(consumer_key=consumer_key, consumer_secret=consumer_secret, oauth_token=oauth_token, oauth_secret=oauth_secret, blog_name=blog_name, caption=read.json()['caption'], link_url=read.json()['link_url'], tags=read.json()['tags'], multimedia_url=read.json()['multimedia_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -735,7 +747,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Reddit image...")
-                    reddit_image(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password, target_subreddit=target_subreddit, title=read.json()['title'], file_name='./multimedia/{}'.format(read.json()['multimedia_url']), x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    reddit_image(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password, target_subreddit=target_subreddit, title=read.json()['title'], multimedia_url=read.json()['multimedia_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
@@ -744,7 +756,7 @@ def main():
                     print("     Downloading multimedia...")
                     download_multimedia(read.json()['multimedia_url'])
                     print("     Posting Reddit video...")
-                    reddit_video(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password, target_subreddit=target_subreddit, title=read.json()['title'], file_name='./multimedia/{}'.format(read.json()['multimedia_url']), x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
+                    reddit_video(client_id=client_id, client_secret=client_secret, user_agent=user_agent, username=username, password=password, target_subreddit=target_subreddit, title=read.json()['title'], multimedia_url=read.json()['multimedia_url'], x=x, read_token=read_token, delete_token=delete_token, server_id=server_id)
                     print("     Deleting multimedia...")
                     delete_multimedia(read.json()['multimedia_url'])
                     print("     Done.")
