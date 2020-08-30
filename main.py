@@ -233,7 +233,7 @@ def facebook_long_text(access_token, page_id, body, link_url, tags, x, read_toke
         print('     Facebook long text status code: {}'.format(fb.status_code))
 
 
-def facebook_image(access_token, page_id, caption, tags, file_name, x, read_token, delete_token, server_id):
+def facebook_image(access_token, page_id, caption, tags, link_url, file_name, x, read_token, delete_token, server_id):
     '''
     Publishes an image post to Facebook, then deletes it from the queue.
 
@@ -253,7 +253,7 @@ def facebook_image(access_token, page_id, caption, tags, file_name, x, read_toke
         print('     Facebook image status code: {}'.format(fb.status_code))
 
 
-def facebook_video(access_token, page_id, caption, tags, file_name, x, read_token, delete_token, server_id):
+def facebook_video(access_token, page_id, caption, tags, link_url, file_name, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Facebook, then deletes it from the queue. (Note: `publish_video` permission is required for this functionality.)
 
@@ -331,7 +331,7 @@ def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_
         print("     Twitter image error: {}".format(str(e)))
 
 
-def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_secret, file_name, caption, tags, x, read_token, delete_token, server_id):
+def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_secret, file_name, caption, link_url, tags, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Twitter, then deletes it from the queue.
 
@@ -523,7 +523,7 @@ def reddit_long_text(client_id, client_secret, user_agent, username, password, t
         print('     Reddit long text error: {}'.format(str(e)))
 
 
-def reddit_image(client_id, client_secret, user_agent, username, password, target_subreddit, title, file_name, x, read_token, delete_token, server_id):
+def reddit_image(client_id, client_secret, user_agent, username, password, target_subreddit, title, file_name, link_url, x, read_token, delete_token, server_id):
     '''
     Publishes an image post to Reddit, then deletes it from the queue.
 
@@ -547,7 +547,7 @@ def reddit_image(client_id, client_secret, user_agent, username, password, targe
         print('     Reddit image error: {}'.format(str(e)))
 
 
-def reddit_video(client_id, client_secret, user_agent, username, password, target_subreddit, title, file_name, x, read_token, delete_token, server_id):
+def reddit_video(client_id, client_secret, user_agent, username, password, target_subreddit, title, file_name, link_url, x, read_token, delete_token, server_id):
     '''
     Publishes a video post to Reddit, then deletes it from the queue.
 
