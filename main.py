@@ -199,6 +199,10 @@ def facebook_short_text(access_token, page_id, body, link_url, tags, x, read_tok
         link_url = ''
     if tags is None:
         tags = ''
+    #else:
+        #tags = str(tags).split(', ')
+        #tags = ' #'.join(tags)
+        #tags = '#' + tags
     message = body + '\n' + tags + '\n' + link_url
     fb = requests.post(f'https://graph.facebook.com/{page_id}/feed?message={message}&access_token={access_token}')
     if fb.status_code == 200:
@@ -224,6 +228,10 @@ def facebook_long_text(access_token, page_id, body, link_url, tags, x, read_toke
         link_url = ''
     if tags is None:
         tags = ''
+    #else:
+        #tags = str(tags).split(', ')
+        #tags = ' #'.join(tags)
+        #tags = '#' + tags
     message = body + '\n' + tags + '\n' + link_url
     fb = requests.post(f'https://graph.facebook.com/{page_id}/feed?message={message}&access_token={access_token}')
     if fb.status_code == 200:
@@ -297,6 +305,10 @@ def twitter_short_text(consumer_key, consumer_secret, access_token_key, access_t
             link_url = ''
         if tags is None:
             tags = ''
+        #else:
+            #tags = str(tags).split(', ')
+            #tags = ' #'.join(tags)
+            #tags = '#' + tags
         api.PostUpdate(body + '\n' + tags + '\n' + link_url)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
@@ -328,6 +340,10 @@ def twitter_image(consumer_key, consumer_secret, access_token_key, access_token_
             link_url = ''
         if tags is None:
             tags = ''
+        #else:
+            #tags = str(tags).split(', ')
+            #tags = ' #'.join(tags)
+            #tags = '#' + tags
         tweet = caption + '\n' + tags + '\n' + link_url
         post = api.update_status(status=tweet, media_ids=[media.media_id])
         print("     Deleting post from queue...")
@@ -360,6 +376,10 @@ def twitter_video(consumer_key, consumer_secret, access_token_key, access_token_
             link_url = ''
         if tags is None:
             tags = ''
+        #else:
+            #tags = str(tags).split(', ')
+            #tags = ' #'.join(tags)
+            #tags = '#' + tags
         tweet = caption + '\n' + tags + '\n' + link_url
         post = api.update_status(status=tweet, media_ids=[media.media_id])
         print("     Deleting post from queue...")
@@ -389,7 +409,13 @@ def tumblr_short_text(consumer_key, consumer_secret, oauth_token, oauth_secret, 
         client = pytumblr.TumblrRestClient(consumer_key, consumer_secret, oauth_token, oauth_secret)
         if link_url is None:
             link_url = ''
+        #if tags is not None:
+            #tags = str(tags).split(', ')
+            #client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url, tags=tags)
+            # when time comes, delete line below
         client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url, tags=tags)
+        #else:
+            #client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -416,7 +442,13 @@ def tumblr_long_text(consumer_key, consumer_secret, oauth_token, oauth_secret, b
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
         if link_url is None:
             link_url = ''
+        #if tags is not None:
+            #tags = str(tags).split(', ')
+            #client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url, tags=tags)
+            # when time comes, delete line below
         client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url, tags=tags)
+        #else:
+            #client.create_text(blog_name, state="published", title=title, body=body + '\n' + link_url)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -445,7 +477,13 @@ def tumblr_image(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
         if link_url is None:
             link_url = ''
+        #if tags is not None:
+            #tags = str(tags).split(', ')
+            #client.create_photo(blog_name, state="published", caption=caption + '\n' + link_url, data=file_name, tags=tags)
+            # when time comes, delete line below
         client.create_photo(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data=file_name)
+        #else:
+            #client.create_photo(blog_name, state="published", caption=caption + '\n' + link_url, data=file_name)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
@@ -472,7 +510,13 @@ def tumblr_video(consumer_key, consumer_secret, oauth_token, oauth_secret, blog_
         client = pytumblr.TumblrRestCleint(consumer_key, consumer_secret, oauth_token, oauth_secret)
         if link_url is None:
             link_url = ''
+        #if tags is not None:
+            #tags = str(tags).split(', ')
+            #client.create_video(blog_name, state="published", caption=caption + '\n' + link_url, data=file_name, tags=tags)
+            # when time comes, delete line below
         client.create_video(blog_name, state="published", caption=caption + '\n' + link_url, tags=tags, data=file_name)
+        #else:
+            #client.create_video(blog_name, state="published", caption=caption + '\n' + link_url, data=file_name)
         print("     Deleting post from queue...")
         requests.get(f'https://icy-fire.com/api/_d/{x}/auth={read_token}&{delete_token}&{server_id}')
     except Exception as e:
