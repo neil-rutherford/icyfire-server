@@ -672,6 +672,8 @@ def main():
     print("Starting at timeslot {}".format(x))
     print("Running...")
 
+    y = 0
+
     while x < end + 1:
         print("Querying timeslot {}:".format(x))
         read = requests.get(f'https://icy-fire.com/api/_r/{x}/auth={read_token}&{cred_token}&{server_id}')
@@ -829,8 +831,16 @@ def main():
             print("     INFO: Can't connect to web server.")
 
         x += 1
+        y += 1
+
         print("Sleeping for 60 seconds...")
         time.sleep(60)
+
+        # Fun fact: time.sleep distorts by ~1 minute every 120 minutes of runtime on Linux (https://stackoverflow.com/questions/1133857/how-accurate-is-pythons-time-sleep#:~:text=Here's%20my%20follow-up%20to%20Wilbert's%20answer:%20the%20same%20for%20Mac%20OS%20X%20Yosemite,%20since%20it's%20not%20been%20mentioned%20much%20yet)
+        # Because this is running in another while loop in run.sh, we are able to break this loop every 120 minutes
+        if y == 120:
+            break
+
         if x == end + 1:
             x = start
     
